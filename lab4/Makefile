@@ -1,8 +1,15 @@
 CFLAGS=-Wall -g
 
+clean:
+	rm -f palchecker findmax
+
 build-pal: 
-	gcc palchecker.c -o pal
+	make palchecker
+build-max: 
+	make max
+
 run-pal: build-pal
-	./pal
-clean: 
-	rm pal
+	./palchecker
+	
+run-max: build-max
+	./max
