@@ -1,5 +1,7 @@
 
 
+#include "text_buffer.h"
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -37,5 +39,6 @@ int main(int argc, char *argv[]) {
   char *str2 = " World!";
 
   printf("concatenated: %s\n", string_concat(str1, str2));
+
   return EXIT_SUCCESS;
 }
