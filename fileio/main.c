@@ -1,10 +1,11 @@
 
 
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-char bbuf[10000]; // to read a big file
+const size_t buffer_size = 128;
 
 int main(int argc, char *argv[]) {
 
@@ -14,14 +15,14 @@ int main(int argc, char *argv[]) {
 
   if (!f) {
     perror("cannot open data.csv\n");
-  } else {
-    printf("opened!\n");
+    return EXIT_FAILURE;
   }
 
-  char buff[1];
+  char buff[buffer_size];
+
   while (fgets(buff, sizeof(buff), f)) {
-    printf("csv line: %s\n", buff);
-    printf("csv line len: %lu\n", strlen(buff));
+    printf("chunk size: %zu, len: %lu, data: %s\n", sizeof(buff), strlen(buff),
+           buff);
   };
 
   return EXIT_SUCCESS;
