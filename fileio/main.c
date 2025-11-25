@@ -1,29 +1,18 @@
 
 
-#include <stddef.h>
+#include "csv_parser.h"
+#include "logger.h"
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-const size_t buffer_size = 128;
-
 int main(int argc, char *argv[]) {
 
-  printf("hello world!\n");
+  set_current_log_level(LOG_LEVEL_DEBUG);
+  log_info("reading the data.csv\n");
 
-  FILE *f = fopen("data.csv", "r");
+  ParseResult *result = parse_csv("data.csv");
 
-  if (!f) {
-    perror("cannot open data.csv\n");
-    return EXIT_FAILURE;
+  for (int i = 0; i < result->length; i++) {
+    printf("%s\n", result->data[i]);
   }
 
-  char buff[buffer_size];
-
-  while (fgets(buff, sizeof(buff), f)) {
-    printf("chunk size: %zu, len: %lu, data: %s\n", sizeof(buff), strlen(buff),
-           buff);
-  };
-
-  return EXIT_SUCCESS;
+  return 0;
 }
