@@ -1,6 +1,5 @@
 
 
-#include "text_buffer.h"
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>

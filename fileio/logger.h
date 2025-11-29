@@ -13,11 +13,11 @@ typedef enum {
 } LOG_LEVEL;
 
 void set_current_log_level(LOG_LEVEL level);
-void log_debug(char *msg);
-void log_trace(char *msg);
-void log_warn(char *msg);
-void log_info(char *msg);
-void log_error(char *msg);
-void log_fatal(char *msg);
+void log_debug(char *fmt, ...);
+void log_trace(char *fmt, ...);
+void log_warn(char *fmt, ...);
+void log_info(char *fmt, ...);
+void log_error(char *fmt, ...);
+void log_fatal(char *fmt, ...);
 
 #endif

@@ -16,11 +16,11 @@
 ParseResult *parse_csv(char *path) {
 
   if (path == NULL) {
-    perror("provide a valid path");
+    log_error("provide a valid path");
     exit(EXIT_FAILURE);
   }
 
-  printf("openning the file %s\n", path);
+  log_info("openning the file '%s'\n", path);
 
   FILE *f = fopen(path, "r");
 
