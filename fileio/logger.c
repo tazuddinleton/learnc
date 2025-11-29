@@ -6,6 +6,20 @@
 #include <time.h>
 
 /*Very simple logger implementation, to use with my csv parser project.*/
+/**
+ *
+| Color   | Code       |
+| ------- | ---------- |
+| Reset   | `\033[0m`  |
+| Red     | `\033[31m` |
+| Green   | `\033[32m` |
+| Yellow  | `\033[33m` |
+| Blue    | `\033[34m` |
+| Magenta | `\033[35m` |
+| Cyan    | `\033[36m` |
+| White   | `\033[37m` |
+
+*/
 
 /*Indicates current log level, default is LOG_LEVEL_INFO*/
 LOG_LEVEL current_log_level = LOG_LEVEL_INFO;
@@ -101,7 +115,7 @@ void log_warn(char *msg, ...) {
 }
 void log_error(char *msg, ...) {
 	if (current_log_level <= LOG_LEVEL_ERROR) {
-		char *log_level = "[ERR] ";
+		char *log_level = "\033[31m[ERR]\033[0m ";
 		print_prefix(log_level);
 		va_list ap;
 		va_start(ap, msg);

@@ -24,7 +24,7 @@ ParseResult *parse_csv(char *path) {
 	FILE *f = fopen(path, "r");
 
 	if (!f) {
-		perror("cannot open data.csv\n");
+		log_error("cannot open %s\n", path);
 		exit(EXIT_FAILURE);
 	}
 

@@ -5,14 +5,14 @@
 #include <stdio.h>
 int main(int argc, char *argv[]) {
 
-  set_current_log_level(LOG_LEVEL_DEBUG);
-  log_info("reading the data.csv\n");
+	set_current_log_level(LOG_LEVEL_DEBUG);
+	log_info("trying to read the data.csv\n");
 
-  ParseResult *result = parse_csv("data.csv");
+	ParseResult *result = parse_csv("adata.csv");
 
-  for (int i = 0; i < result->length; i++) {
-    printf("%s\n", result->data[i]);
-  }
+	for (int i = 0; i < result->length; i++) {
+		printf("%s\n", result->data[i]);
+	}
 
-  return 0;
+	return 0;
 }
