@@ -7,8 +7,8 @@
 #include <stdlib.h>
 
 typedef struct {
-  int length;
-  char **data;
+	int length;
+	char **data;
 } ParseResult;
 
 ParseResult *ParseResult_new();
