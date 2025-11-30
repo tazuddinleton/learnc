@@ -34,7 +34,7 @@ ParseResult *parse_csv(char *path) {
 	char *line;
 	while ((line = get_line(f)) != NULL) {
 		log_info("got a line, adding it to result : %s\n", line);
-		// Todo: Split the line by comma and build list of columns
+		/* Todo: Split the line by comma and build list of columns */
 		ParseResult_add_line(line, parse_result);
 	}
 
@@ -64,14 +64,17 @@ void ParseResult_add_line(char *line, ParseResult *result) {
 char *get_line(FILE *f) {
 	size_t buff_size = 64;
 	log_debug("buff_size: %lu\n", buff_size);
-	char *buff = malloc(sizeof(char *) * buff_size);
-	int c, rc, idx = 0;
 
-	while ((c = fgetc(f)) != EOF) {
-		if (c == '\n') {
+	char *buff = malloc(sizeof(char *) * buff_size);
+	int ch, rc /*rc keeps track number of time realloc occured*/, idx = 0;
+
+	while ((ch = fgetc(f)) != EOF) {
+		if (ch == '\n') {
 			log_debug("a line is found, returning to calleer: %s\n", buff);
 			return buff;
 		}
+
+		/* Check if buffer is filled up and need a reallocation */
 		if (idx == buff_size - 1) {
 			log_debug(
 				"buffer full, reallocating by doubling the current size %lu\n",
@@ -86,7 +89,7 @@ char *get_line(FILE *f) {
 			}
 			buff = new_buff;
 		}
-		buff[idx] = (char)c;
+		buff[idx] = (char)ch;
 		idx++;
 	}
 
