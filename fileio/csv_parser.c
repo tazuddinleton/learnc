@@ -3,6 +3,7 @@
 #include "csv_parser.h"
 #include "logger.h"
 #include <assert.h>
+#include <cstdio>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -30,7 +31,10 @@ ParseResult *parse_csv(char *path) {
 
 	ParseResult *parse_result = ParseResult_new();
 
-	ParseResult_add_line("hello", parse_result);
+	char *line;
+	while (getline)
+		ParseResult_add_line("hello", parse_result);
+
 	ParseResult_add_line("world", parse_result);
 	ParseResult_add_line("!", parse_result);
 
@@ -57,13 +61,7 @@ void ParseResult_add_line(char *line, ParseResult *result) {
 	log_info("added line.\n");
 }
 
-char *get_line(char buff[MAX_READ_BUFFER]) {
+char *get_line(FILE *f) { char *line[MAX_READ_BUFFER]; }
 
-	char *line;
-	int idx = 0;
-	while (buff[idx] != '\n' || idx < strlen(buff)) {
-		idx++;
-	}
-
-	return line;
+return line;
 }

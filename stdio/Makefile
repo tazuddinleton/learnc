@@ -23,3 +23,7 @@ run-main2: clean-main2 build-main2
 	./main2
 
 
+build-fgetc:
+	gcc -o fgetc fgetc.c -Wall
+
+
