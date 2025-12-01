@@ -82,7 +82,7 @@ char *get_line(FILE *f) {
 			rc++;
 			buff_size = 2 * buff_size;
 			char *new_buff = realloc(buff, buff_size);
-			if (buff == NULL) {
+			if (new_buff == NULL) {
 				log_error("reallocation failed, returning whatever is in "
 						  "current buffer");
 				return buff;
