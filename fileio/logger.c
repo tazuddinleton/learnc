@@ -2,7 +2,10 @@
 
 #include "logger.h"
 #include <stdarg.h>
+#include <stddef.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <time.h>
 
 /*Very simple logger implementation, to use with my csv parser project.*/
@@ -40,12 +43,14 @@ void print_message(char *msg, ...) {
 	char *p, *sval;
 	int ival;
 	double dval;
+	size_t stval;
 
 	for (p = msg; *p; p++) {
 		if (*p != '%') {
 			putchar(*p);
 			continue;
 		}
+
 		switch (*++p) {
 		case 'd':
 			ival = va_arg(ap, int);
@@ -60,6 +65,7 @@ void print_message(char *msg, ...) {
 			for (sval = va_arg(ap, char *); *sval; sval++)
 				putchar(*sval);
 			break;
+
 		default:
 			break;
 		}

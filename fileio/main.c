@@ -66,8 +66,8 @@ int main(int argc, char *argv[]) {
 	if (cmd_args == NULL) {
 		return 1;
 	}
+	set_current_log_level(cmd_args->loglevel);
 
-	set_current_log_level(LOG_LEVEL_ERROR);
 	ParseResult *result = parse_csv(cmd_args->file_path);
 
 	for (int i = 0; i < result->length; i++) {

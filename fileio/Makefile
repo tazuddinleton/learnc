@@ -6,8 +6,11 @@ build:
 	gcc -o csvp main.c csv_parser.c logger.c -Wall
 
 
-rundata: clean build
-	./csvp data.csv -l error
+run-dummydata: clean build
+	./csvp data.csv -l debug
+
+run-findata: clean build
+	./csvp fin_survey.csv -l error
 
 run: clean build
 	./csvp

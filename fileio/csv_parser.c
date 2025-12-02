@@ -62,8 +62,8 @@ void ParseResult_add_line(char *line, ParseResult *result) {
 }
 
 char *get_line(FILE *f) {
-	size_t buff_size = 64;
-	log_debug("buff_size: %lu\n", buff_size);
+	int buff_size = 64;
+	log_debug("buff_size: %d\n", buff_size);
 
 	char *buff = malloc(sizeof(char *) * buff_size);
 	int ch, rc /*rc keeps track number of time realloc occured*/, idx = 0;
@@ -76,9 +76,8 @@ char *get_line(FILE *f) {
 
 		/* Check if buffer is filled up and need a reallocation */
 		if (idx == buff_size - 1) {
-			log_debug(
-				"buffer full, reallocating by doubling the current size %lu\n",
-				buff_size);
+			log_debug("reallocating by doubling the current size %zu\n",
+					  buff_size);
 			rc++;
 			buff_size = 2 * buff_size;
 			char *new_buff = realloc(buff, buff_size);
