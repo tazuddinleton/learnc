@@ -62,8 +62,9 @@ void ParseResult_add_line(char *line, ParseResult *result) {
 }
 
 char *get_line(FILE *f) {
-	int buff_size = 64;
-	log_debug("buff_size: %d\n", buff_size);
+	size_t buff_size = 64;
+
+	log_debug("buff_size: %zu\n", buff_size);
 
 	char *buff = malloc(sizeof(char *) * buff_size);
 	int ch, rc /*rc keeps track number of time realloc occured*/, idx = 0;

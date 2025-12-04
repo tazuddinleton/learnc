@@ -4,25 +4,24 @@
 #include <stdarg.h>
 #include <stddef.h>
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include <time.h>
+
+#define RESET "\x1b[0m"
+#define RED "\x1b[31m"
+#define GREEN "\x1b[32m"
+#define YELLOW "\x1b[33m"
+#define BLUE "\x1b[34m"
+#define MAGENTA "\x1b[35m"
+#define CYAN "\x1b[36m"
 
 /*Very simple logger implementation, to use with my csv parser project.*/
 /**
  *
-| Color   | Code       |
-| ------- | ---------- |
-| Reset   | `\033[0m`  |
-| Red     | `\033[31m` |
-| Green   | `\033[32m` |
-| Yellow  | `\033[33m` |
-| Blue    | `\033[34m` |
-| Magenta | `\033[35m` |
-| Cyan    | `\033[36m` |
-| White   | `\033[37m` |
 
+#define WHITE "\x1b[37m"
 */
+
+char *color[] = {};
 
 /*Indicates current log level, default is LOG_LEVEL_INFO*/
 LOG_LEVEL current_log_level = LOG_LEVEL_INFO;
@@ -37,48 +36,14 @@ void print_prefix(char *log_level) {
 }
 
 /*Prints messages with format specifier and variable arguments*/
-void print_message(char *msg, ...) {
-	va_list ap;
-	va_start(ap, msg);
-	char *p, *sval;
-	int ival;
-	double dval;
-	size_t stval;
-
-	for (p = msg; *p; p++) {
-		if (*p != '%') {
-			putchar(*p);
-			continue;
-		}
-
-		switch (*++p) {
-		case 'd':
-			ival = va_arg(ap, int);
-			putchar(ival);
-			break;
-
-		case 'f':
-			dval = va_arg(ap, int);
-			putchar(dval);
-			break;
-		case 's':
-			for (sval = va_arg(ap, char *); *sval; sval++)
-				putchar(*sval);
-			break;
-
-		default:
-			break;
-		}
-	}
-	va_end(ap);
-}
+void print_message(char *msg, va_list ap) { vprintf(msg, ap); }
 
 /*Allows user to set up current log level*/
 void set_current_log_level(LOG_LEVEL level) { current_log_level = level; };
 
 void log_trace(char *msg, ...) {
 	if (current_log_level == LOG_LEVEL_TRACE) {
-		char *log_level = "[TRACE] ";
+		char *log_level = CYAN "[TRACE] " RESET;
 		print_prefix(log_level);
 		va_list ap;
 		va_start(ap, msg);
@@ -89,7 +54,7 @@ void log_trace(char *msg, ...) {
 
 void log_debug(char *msg, ...) {
 	if (current_log_level <= LOG_LEVEL_DEBUG) {
-		char *log_level = "[DBG] ";
+		char *log_level = CYAN "[DBG] " RESET;
 		print_prefix(log_level);
 		va_list ap;
 		va_start(ap, msg);
@@ -100,7 +65,7 @@ void log_debug(char *msg, ...) {
 void log_info(char *msg, ...) {
 
 	if (current_log_level <= LOG_LEVEL_INFO) {
-		char *log_level = "[INF] ";
+		char *log_level = GREEN "[INF] " RESET;
 		print_prefix(log_level);
 		va_list ap;
 		va_start(ap, msg);
@@ -111,7 +76,7 @@ void log_info(char *msg, ...) {
 
 void log_warn(char *msg, ...) {
 	if (current_log_level <= LOG_LEVEL_WARNING) {
-		char *log_level = "[WARN] ";
+		char *log_level = YELLOW "[WARN] " RESET;
 		print_prefix(log_level);
 		va_list ap;
 		va_start(ap, msg);
@@ -121,7 +86,7 @@ void log_warn(char *msg, ...) {
 }
 void log_error(char *msg, ...) {
 	if (current_log_level <= LOG_LEVEL_ERROR) {
-		char *log_level = "\033[31m[ERR]\033[0m ";
+		char *log_level = RED "[ERR] " RESET;
 		print_prefix(log_level);
 		va_list ap;
 		va_start(ap, msg);
@@ -131,7 +96,7 @@ void log_error(char *msg, ...) {
 }
 void log_fatal(char *msg, ...) {
 	if (current_log_level <= LOG_LEVEL_FATAL) {
-		char *log_level = "[FATAL] ";
+		char *log_level = MAGENTA "[FATAL] " RESET;
 		print_prefix(log_level);
 		va_list ap;
 		va_start(ap, msg);
