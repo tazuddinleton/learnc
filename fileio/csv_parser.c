@@ -1,5 +1,4 @@
 
-
 #include "csv_parser.h"
 #include "logger.h"
 #include <assert.h>
