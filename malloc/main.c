@@ -21,6 +21,18 @@ int *initialize_scalar_list(int size, int multiplier) {
 	return result;
 }
 
+char *read_string() {
+	char *buffer = malloc(1);
+
+	char c;
+	int idx = 0;
+	while ((c = getc(stdin)) != '\n') {
+		printf("%c", c);
+		buffer[idx++] = c;
+	}
+	return buffer;
+}
+
 int main() {
 	printf("greeting: %s\n", get_full_greeting("Hello,", "Taz", 12));
 
