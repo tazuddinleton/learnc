@@ -1,11 +1,6 @@
-Absolutely — here are **your remaining assignments** rewritten in a **Typora-friendly**, clean, Markdown format.
- These continue from **Assignment #6** onward, using your dynamic vector as the foundation.
 
-------
+# **Assignments 7–10 (Typora-friendly Markdown)**
 
-# 🌳 **Assignments 7–10 (Typora-friendly Markdown)**
-
-------
 
 # ## **7. Tokenize a String Using a Dynamic Array**
 

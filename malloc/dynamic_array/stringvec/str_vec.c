@@ -22,7 +22,7 @@ void resize(StringVector *v) {
 	v->data = new_data;
 }
 
-StringVector *IntVector_create() {
+StringVector *StringVector_create() {
 	int init_cap = 10;
 
 	StringVector *v = malloc(sizeof(StringVector));
@@ -34,18 +34,27 @@ StringVector *IntVector_create() {
 	return v;
 }
 
-void IntVector_free(StringVector *v) {
+void StringVector_free(StringVector *v) {
 	if (v) {
 		free(v->data);
 		free(v);
 	}
 }
 
-void IntVector_add(StringVector *v, char *val) {
+void StringVector_add(StringVector *v, char *val) {
 	throw_if_null(v);
 
 	if (v->size == v->cap) {
 		resize(v);
 	}
+	printf("adding to StringVector: %s\n", val);
 	v->data[v->size++] = val;
+}
+
+char *StringVector_get_at(StringVector *v, int index) {
+	if (index > 0 && index <= v->size) {
+		return v->data[index];
+	}
+	fprintf(stderr, "Index out of range");
+	exit(1);
 }

@@ -55,7 +55,7 @@ void IntVector_push_back(IntVector *v, int val) {
 void IntVector_pop_back(IntVector *v) {
 	throw_if_null(v);
 	if (v->size == 0) {
-		perror("Index out of range");
+		fprintf(stderr, "Index out of range");
 		exit(1);
 	}
 	v->size--;
