@@ -1,4 +1,3 @@
-
 # **Assignments 7–10 (Typora-friendly Markdown)**
 
 

@@ -13,7 +13,7 @@ void throw_if_null(StringVector *v) {
 
 void resize(StringVector *v) {
 	int new_cap = v->cap * 2;
-	char **new_data = malloc(sizeof(char **) * new_cap);
+	char **new_data = realloc(v->data, sizeof(char **) * new_cap);
 	if (new_data == NULL) {
 		perror("Realloc failed!\n");
 		exit(1);
@@ -47,12 +47,12 @@ void StringVector_add(StringVector *v, char *val) {
 	if (v->size == v->cap) {
 		resize(v);
 	}
-	printf("adding to StringVector: %s\n", val);
+	printf("adding to StringVector at %d: %s\n", v->size + 1, val);
 	v->data[v->size++] = val;
 }
 
 char *StringVector_get_at(StringVector *v, int index) {
-	if (index > 0 && index <= v->size) {
+	if (index >= 0 && index <= v->size) {
 		return v->data[index];
 	}
 	fprintf(stderr, "Index out of range");

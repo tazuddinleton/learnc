@@ -23,4 +23,6 @@ int main(int argc, char *argv[]) {
 	snprintf(h2, size, "%s %s\n", "Hello", "World!   ");
 
 	printf("snprintf: %s\n", h2);
+
+	printf("## ***hello***");
 }
