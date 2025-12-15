@@ -50,9 +50,9 @@ int main() {
 
 	printf("The size of StringVector: %d\n", v->size);
 	printf("The cap of StringVector: %d\n", v->cap);
-	printf("The value at 0 of StringVector: %s\n", StringVector_get_at(v, 100));
-	printf("The value at 1 of StringVector: %s\n", StringVector_get_at(v, 200));
-	printf("The value at 2 of StringVector: %s\n", StringVector_get_at(v, 300));
+	printf("The value at 0 of StringVector: %s\n", StringVector_get_at(v, 0));
+	printf("The value at 1 of StringVector: %s\n", StringVector_get_at(v, 1));
+	printf("The value at 2 of StringVector: %s\n", StringVector_get_at(v, 2));
 
 	StringVector_free(v);
 	free(buffer);

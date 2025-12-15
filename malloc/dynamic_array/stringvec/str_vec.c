@@ -36,6 +36,9 @@ StringVector *StringVector_create() {
 
 void StringVector_free(StringVector *v) {
 	if (v) {
+		for (int i = 0; i < v->size; i++) {
+			free(v->data[i]);
+		}
 		free(v->data);
 		free(v);
 	}
