@@ -1,3 +1,5 @@
-"first_name", "last_name", "age"
-"John", "Doe", 28
-"John", "Doe", 28
+Name,Age,Grade,City
+Alice,20,85,New York
+Bob,22,92,Los Angeles
+Charlie,19,78,Chicago
+Diana,21,96,Houston
