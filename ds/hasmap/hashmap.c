@@ -1,100 +1,108 @@
+
+
+// Linked list for chaining
+// Hash function to get the index
+
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#define CAPACITY 50000 // size of hasmap array
+#define CAPACITY 50000 // the capacity of the array of the buckets
+#define HASH 5381
 
-// Linked list node
+// Linkde list node
 typedef struct Node {
-	char *key;
-	char *value;
-	struct Node *next;
-} Node;
+	char *key;		   // pointer to a char is 8 bytes
+	char *value;	   // pointer to a char is 8 bytes
+	struct Node *next; // pointer to a node is also 8 bytes
+} Node;				   // so total memory 24 bytes
 
-// the Hashmap
-typedef struct Map {
-	Node **buckets;
-} Map;
-
-// Uses DJB2 Algorithm
-unsigned long hash_function(char *str) {
-	unsigned long hash = 5381;
-	int c;
-	while ((c = *str++)) {
-		hash = (hash << 5) + hash + c; // equivalent to hash * 33 + c
-	}
-
-	return hash % CAPACITY;
-}
-
-// Helper to create a node
+// We need a helper to create node
 Node *create_node(char *key, char *value) {
-	Node *node = (Node *)malloc(sizeof(Node));
-
+	Node *node = malloc(sizeof(Node));
 	assert(node != NULL);
 
 	node->key = strdup(key);
 	node->value = strdup(value);
-	node->next = NULL;
 	return node;
 }
 
-// Helper to create a Hashmap
+// We need the define the hashmap itself
+typedef struct Map {
+	unsigned long cap;
+	// single asterisk would refer to the node's memory location, but we
+	// need a pointer to that memeory
+	// this become an array of pointers which holds pointer to a node
+	Node **buckets; // 8 bytes
+
+} Map;
+
+// We need a helper function to create the hashmap
 Map *create_map() {
-	Map *map = (Map *)malloc(sizeof(Map));
-	// Allocate memrory for all buckets and initialize them to zero
-	map->buckets = (Node **)calloc(CAPACITY, sizeof(Node *));
+	Map *map = malloc(sizeof(Map));
+	assert(map != NULL);
+	map->cap = CAPACITY;
+
+	Node **bucekts = calloc(CAPACITY, sizeof(Node *));
+	assert(bucekts != NULL);
+	map->buckets = bucekts;
+
 	return map;
 }
 
-// When inserting 3 cases to consider:
-// 1. The bucket is empty, in this case just insert
-// 2. The bucket contains the key already, in this case just update the value
-// 3. The bucket contains a different key, that means a collision, in this case
-// Walk through the linked list and append the node at the end
-void insert(Map *map, char *key, char *value) {
-	unsigned long index = hash_function(key);
-	Node *node = create_node(key, value);
+// Now we need the hash function the engine
+unsigned long has_function(char *key) {
+	// We'll use DJB2 algorithm for hasing
+	unsigned long hash = HASH;
+	char c;
+	while ((c = *key++)) {
+		hash = (hash << 5) + hash + c;
+	}
+	return hash % CAPACITY;
+}
 
+// Helper function to insert the entry
+void insert(Map *map, char *key, char *value) {
+	assert(map != NULL);
+
+	unsigned long index = has_function(key);
 	Node *head = map->buckets[index];
-	// Bucket empty, just insert
 	if (head == NULL) {
-		map->buckets[index] = node;
+		// bucket is empty so add a node and return
+		map->buckets[index] = create_node(key, value);
 		return;
 	}
 
-	// Bucket is not empty, let's walk the chain
-
-	Node *prev;
+	// bucket is not empty so check if the key already exist in the chain
 	Node *curr = head;
+	Node *prev = curr;
 	while (curr != NULL) {
-		if (strcmp(head->key, key) == 0) {
-			// found the key, just update
-			free(curr->value); // free the old memory, because strdup allocates
-							   // new memory
+		if (strcmp(curr->key, key) == 0) {
+			// Match found, update the value and return
+			free(curr->value); // free before using strdup, because strdup
+							   // allocates new memory
 			curr->value = strdup(value);
 			return;
 		}
 		prev = curr;
 		curr = curr->next;
 	}
-	// Key was not found in the chain, append at the end
-	prev->next = node;
+
+	// Exausted the chain, no match found, append a node and return
+	prev->next = create_node(key, value);
 }
 
-char *search(Map *map, char *key) {
-	unsigned long index = hash_function(key);
+char *get_value(Map *map, char *key) {
+	unsigned long index = has_function(key);
 
-	Node *curr = map->buckets[index];
+	Node *node = map->buckets[index];
 
-	while (curr != NULL) {
-		if (strcmp(key, curr->key) == 0) {
-			// match found
-			return curr->value;
-		}
-		curr = curr->next;
+	if (node != NULL) {
+		return node->value;
 	}
+
+	// return NULL if not found
 	return NULL;
 }
 
@@ -102,31 +110,26 @@ void free_map(Map *map) {
 	if (map == NULL) {
 		return;
 	}
+	// Now for each bucket we need to free everything
 
 	for (int i = 0; i < CAPACITY; i++) {
-		Node *curr = map->buckets[i];
-		while (curr != NULL) {
-			Node *temp = curr;
-			curr = curr->next;
+		Node *node = map->buckets[i];
+		while (node != NULL) {
+			Node *temp = node;
+			node = node->next;
 
 			free(temp->key);
 			free(temp->value);
 			free(temp);
 		}
 	}
-	free(map->buckets);
-	free(map);
 }
 
 int main(int argc, char *argv[]) {
 	Map *map = create_map();
-	insert(map, "Hello", "World!");
-	insert(map, "abc", "1234545");
-	insert(map, "ok", "200");
+	insert(map, "Hello", "World");
 
-	printf("%s\n", search(map, "Hello"));
-	printf("%s\n", search(map, "abc"));
-	printf("%s\n", search(map, "ok"));
+	printf("%s\n", get_value(map, "Hello"));
 
-	free_map(map);
+	return 0;
 }
