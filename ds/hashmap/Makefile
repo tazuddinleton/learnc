@@ -6,7 +6,7 @@ clean:
 	rm -f hashmap
 
 build:
-	gcc -o hashmap hashmap.c -Wall
+	gcc -o hashmap hashmap_fnv1a.c -Wall
 
 
 
