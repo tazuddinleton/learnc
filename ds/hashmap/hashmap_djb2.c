@@ -1,15 +1,18 @@
-
-
-// Linked list for chaining
-// Hash function to get the index
-
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
+// The hash function algorithm used in this implementation is
+// DJB2 which is the way to generate hash by repeatedly left shifting the
+// initial has which is the magic number 5381 by 5 bits then adds current hash +
+// the character to it. hash = (hash << 5) + hash + c which is equivalent to
+// hash = (hash * 37) + hash + c but shifting bits is faster
+//
+//
+
 #define CAPACITY 50000 // the capacity of the array of the buckets
-#define HASH 5381
+#define HASH 5381	   // the magic number
 
 // Linkde list node
 typedef struct Node {
